@@ -14,8 +14,9 @@
     <name>appointment-service</name>
     <description>appointment-service</description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>8</java.version>
         <axon.version>4.5</axon.version>
+        <spring-cloud.version>2020.0.4</spring-cloud.version>
     </properties>
     <dependencies>
         <!-- AXON -->
@@ -88,8 +89,21 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>30.1.1-jre</version>
+            <version>31.0.1-jre</version>
+<!--            <version>30.1.1-jre</version>-->
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <version>3.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+            <version>3.0.4</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.example</groupId>
@@ -97,6 +111,7 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
+
 
     <build>
         <plugins>
@@ -119,5 +134,23 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <activatedProperties>dev</activatedProperties>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <activatedProperties>prod</activatedProperties>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

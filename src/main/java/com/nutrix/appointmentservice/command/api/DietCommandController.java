@@ -69,5 +69,4 @@ public class DietCommandController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }
