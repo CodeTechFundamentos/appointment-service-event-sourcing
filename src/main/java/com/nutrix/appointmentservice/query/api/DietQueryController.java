@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.MediaType;
 import queries.GetDietsQuery;
+import result.DietResult;
 
 import java.util.List;
 
@@ -35,13 +36,13 @@ public class DietQueryController {
             @ApiResponse(code=201, message = "Diet encontrados"),
             @ApiResponse(code=404, message = "Diet no encontrados")
     })
-    public ResponseEntity<List<CreateDietModel>> getAll(){
+    public ResponseEntity<List<DietResult>> getAll(){
         try {
             GetDietsQuery getDietsQuery = new GetDietsQuery();
-            List<CreateDietModel> dietModels = queryGateway.query(getDietsQuery,
-                    ResponseTypes.multipleInstancesOf(CreateDietModel.class))
+            List<DietResult> diets = queryGateway.query(getDietsQuery,
+                    ResponseTypes.multipleInstancesOf(DietResult.class))
                     .join();
-            return new ResponseEntity<>(dietModels, HttpStatus.CREATED);
+            return new ResponseEntity<>(diets, HttpStatus.CREATED);
         }catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

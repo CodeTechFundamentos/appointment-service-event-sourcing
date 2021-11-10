@@ -107,7 +107,7 @@
 
         <dependency>
             <groupId>org.example</groupId>
-            <artifactId>publication-contracts</artifactId>
+            <artifactId>appointment-contracts</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

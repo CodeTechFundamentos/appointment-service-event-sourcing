@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import queries.GetAppointmentsQuery;
+import result.AppointmentResult;
 
 import java.util.List;
 
@@ -35,13 +36,13 @@ public class AppointmentQueryController {
             @ApiResponse(code=201, message = "Appointments encontrados"),
             @ApiResponse(code=404, message = "Appointments no encontrados")
     })
-    public ResponseEntity<List<CreateAppointmentModel>> getAll(){
+    public ResponseEntity<List<AppointmentResult>> getAll(){
         try{
             GetAppointmentsQuery getAppointmentsQuery = new GetAppointmentsQuery();
-            List<CreateAppointmentModel> appointmentModels = queryGateway.query(getAppointmentsQuery,
-                    ResponseTypes.multipleInstancesOf(CreateAppointmentModel.class))
+            List<AppointmentResult> appointments = queryGateway.query(getAppointmentsQuery,
+                    ResponseTypes.multipleInstancesOf(AppointmentResult.class))
                     .join();
-            return new ResponseEntity<>(appointmentModels, HttpStatus.CREATED);
+            return new ResponseEntity<>(appointments, HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

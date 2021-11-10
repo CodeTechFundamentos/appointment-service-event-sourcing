@@ -8,5 +8,6 @@ import java.util.Date;
 public class UpdateDietModel {
     private String name;
     private String description;
+    private Date createdAt;
     private Date lastModification;
 }

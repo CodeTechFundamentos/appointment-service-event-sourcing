@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.nutrix.appointmentservice.query.models.*;
 import org.springframework.stereotype.Component;
 import queries.GetAppointmentsQuery;
+import result.AppointmentResult;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,12 +22,12 @@ public class AppointmentQueryHandler {
     }
 
     @QueryHandler
-    public List<CreateAppointmentModel> handle(GetAppointmentsQuery query) {
+    public List<AppointmentResult> handle(GetAppointmentsQuery query) {
         List<Appointment> appointments = appointmentRepository.findAll();
 
-        List<CreateAppointmentModel> appointmentModels =
+        List<AppointmentResult> appointmentModels =
                 appointments.stream()
-                        .map(appointment -> new CreateAppointmentModel(
+                        .map(appointment -> new AppointmentResult(
                                 appointment.getId(),
                                 appointment.getPatientId(),
                                 appointment.getNutritionistId(),

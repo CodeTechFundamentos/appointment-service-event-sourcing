@@ -7,6 +7,7 @@ import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import queries.GetDietsQuery;
+import result.DietResult;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,12 +22,12 @@ public class DietQueryHandler {
     }
 
     @QueryHandler
-    public List<CreateDietModel> handle(GetDietsQuery query) {
+    public List<DietResult> handle(GetDietsQuery query) {
         List<Diet> diets = dietRepository.findAll();
 
-        List<CreateDietModel> dietModels =
+        List<DietResult> dietModels =
                 diets.stream()
-                        .map(diet -> new CreateDietModel(
+                        .map(diet -> new DietResult(
                                 diet.getId(),
                                 diet.getName(),
                                 diet.getDescription(),
