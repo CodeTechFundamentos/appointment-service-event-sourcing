@@ -1,5 +1,6 @@
 package com.nutrix.appointmentservice.query.api;
 
+import com.nutrix.appointmentservice.command.infra.Appointment;
 import com.nutrix.appointmentservice.query.models.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +34,10 @@ public class AppointmentQueryController {
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Búsqueda de todos los Appointments", notes ="Método que busca a todos los Appointments" )
     @ApiResponses({
-            @ApiResponse(code=201, message = "Appointments encontrados"),
+            @ApiResponse(code=200, message = "La operación fue exitosa", response = Appointment.class),
+            @ApiResponse(code=201, message = "Appointments encontrados", response = Appointment.class),
+            @ApiResponse(code=401, message = "Es necesario autenticar para obtener la respuesta solicitada"),
+            @ApiResponse(code=403, message = "El cliente no posee los permisos necesarios"),
             @ApiResponse(code=404, message = "Appointments no encontrados")
     })
     public ResponseEntity<List<AppointmentResult>> getAll(){

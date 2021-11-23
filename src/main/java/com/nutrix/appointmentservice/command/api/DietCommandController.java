@@ -1,6 +1,7 @@
 package com.nutrix.appointmentservice.command.api;
 
 import com.nutrix.appointmentservice.command.application.dto.ErrorResponseDto;
+import com.nutrix.appointmentservice.command.infra.Appointment;
 import com.nutrix.appointmentservice.query.models.*;
 import command.CreateDietC;
 import command.DeleteDietC;
@@ -35,8 +36,11 @@ public class DietCommandController {
     @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Registro de un Diet", notes ="Método que registra un Diet" )
     @ApiResponses({
-            @ApiResponse(code=201, message = "Diet creado"),
-            @ApiResponse(code=404, message = "Diet no creado")
+            @ApiResponse(code=200, message = "La operación fue exitosa", response = Appointment.class),
+            @ApiResponse(code=201, message = "Diet creado", response = Appointment.class),
+            @ApiResponse(code=401, message = "Es necesario autenticar para obtener la respuesta solicitada"),
+            @ApiResponse(code=403, message = "El cliente no posee los permisos necesarios"),
+            @ApiResponse(code=404, message = "Diet no fue creado")
     })
     public ResponseEntity<Object> insertDiet(@Validated @RequestBody CreateDietModel diet){
         String id = UUID.randomUUID().toString();
@@ -52,7 +56,7 @@ public class DietCommandController {
             if (ex != null)
                 return new ErrorResponseDto(ex.getMessage());
             return new CreateDietModel(
-                    createDietC.getId(),
+                    //createDietC.getId(),
                     createDietC.getName(),
                     createDietC.getDescription(),
                     createDietC.getCreatedAt(),
@@ -74,8 +78,11 @@ public class DietCommandController {
     @PutMapping(path = "/{dietId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Modificación de un Diet", notes ="Método que modifica un Diet" )
     @ApiResponses({
-            @ApiResponse(code=201, message = "Diet modificado"),
-            @ApiResponse(code=404, message = "Diet no modificado")
+            @ApiResponse(code=200, message = "La operación fue exitosa", response = Appointment.class),
+            @ApiResponse(code=201, message = "Diet modificado", response = Appointment.class),
+            @ApiResponse(code=401, message = "Es necesario autenticar para obtener la respuesta solicitada"),
+            @ApiResponse(code=403, message = "El cliente no posee los permisos necesarios"),
+            @ApiResponse(code=404, message = "Diet no fue modificado")
     })
     public ResponseEntity<Object> updateDiet(@PathVariable("dietId") String dietId, @RequestBody UpdateDietModel diet){
         UpdateDietC updateDietC = new UpdateDietC(
@@ -112,8 +119,11 @@ public class DietCommandController {
     @DeleteMapping(path = "/{dietId}")
     @ApiOperation(value = "Eliminación de un Diet", notes ="Método que elimina un Diet" )
     @ApiResponses({
+            @ApiResponse(code=200, message = "La operación fue exitosa"),
             @ApiResponse(code=201, message = "Diet eliminado"),
-            @ApiResponse(code=404, message = "Diet no eliminado")
+            @ApiResponse(code=401, message = "Es necesario autenticar para obtener la respuesta solicitada"),
+            @ApiResponse(code=403, message = "El cliente no posee los permisos necesarios"),
+            @ApiResponse(code=404, message = "Diet no fue eliminado")
     })
     public CompletableFuture<String> deleteDiet(@PathVariable("dietId") String dietId){
         return commandGateway.send(new DeleteDietC(dietId));

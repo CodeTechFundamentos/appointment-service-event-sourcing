@@ -1,6 +1,7 @@
 package com.nutrix.appointmentservice.command.api;
 
 import com.nutrix.appointmentservice.command.application.dto.ErrorResponseDto;
+import com.nutrix.appointmentservice.command.infra.Appointment;
 import com.nutrix.appointmentservice.query.models.*;
 import command.CreateAppointmentC;
 import command.DeleteAppointmentC;
@@ -35,10 +36,13 @@ public class AppointmentCommandController {
     @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Registro de un Appointment", notes ="Método que registra un Appointment" )
     @ApiResponses({
-            @ApiResponse(code=201, message = "Appointment creado"),
-            @ApiResponse(code=404, message = "Appointment no creado")
+            @ApiResponse(code=200, message = "La operación fue exitosa", response = Appointment.class),
+            @ApiResponse(code=201, message = "Appointment creado", response = Appointment.class),
+            @ApiResponse(code=401, message = "Es necesario autenticar para obtener la respuesta solicitada"),
+            @ApiResponse(code=403, message = "El cliente no posee los permisos necesarios"),
+            @ApiResponse(code=404, message = "Appointment no fue creado")
     })
-    public ResponseEntity<Object> inserAppointment(@Validated @RequestBody CreateAppointmentModel appointment) {
+    public ResponseEntity<Object> insertAppointment(@Validated @RequestBody CreateAppointmentModel appointment) {
         String id = UUID.randomUUID().toString();
         CreateAppointmentC createAppointmentC = new CreateAppointmentC(
                 id,
@@ -54,7 +58,7 @@ public class AppointmentCommandController {
             if (ex != null)
                 return new ErrorResponseDto(ex.getMessage());
             return new CreateAppointmentModel(
-                    createAppointmentC.getId(),
+                    //createAppointmentC.getId(),
                     createAppointmentC.getPatientId(),
                     createAppointmentC.getNutritionistId(),
                     createAppointmentC.getCreatedAt(),
@@ -77,8 +81,11 @@ public class AppointmentCommandController {
     @PutMapping(path = "/{appointmentId}" , consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Modificación de un Appointment", notes ="Método que modifica un Appointment" )
     @ApiResponses({
-            @ApiResponse(code=201, message = "Appointment modificado"),
-            @ApiResponse(code=404, message = "Appointment no modificado")
+            @ApiResponse(code=200, message = "La operación fue exitosa", response = Appointment.class),
+            @ApiResponse(code=201, message = "Appointment modificado", response = Appointment.class),
+            @ApiResponse(code=401, message = "Es necesario autenticar para obtener la respuesta solicitada"),
+            @ApiResponse(code=403, message = "El cliente no posee los permisos necesarios"),
+            @ApiResponse(code=404, message = "Appointment no fue modificado")
     })
     public ResponseEntity<Object> updateAppointment(@PathVariable("appointmentId") String appointmentId, @RequestBody UpdateAppointmentModel appointment){
         UpdateAppointmentC updateAppointmentC = new UpdateAppointmentC(
@@ -119,8 +126,11 @@ public class AppointmentCommandController {
     @DeleteMapping(path = "/{appointmentId}")
     @ApiOperation(value = "Eliminación de un Appointment", notes ="Método que elimina un Appointment" )
     @ApiResponses({
+            @ApiResponse(code=200, message = "La operación fue exitosa"),
             @ApiResponse(code=201, message = "Appointment eliminado"),
-            @ApiResponse(code=404, message = "Appointment no eliminado")
+            @ApiResponse(code=401, message = "Es necesario autenticar para obtener la respuesta solicitada"),
+            @ApiResponse(code=403, message = "El cliente no posee los permisos necesarios"),
+            @ApiResponse(code=404, message = "Appointment no fue eliminado")
     })
     public CompletableFuture<String> deleteAppointment(@PathVariable("appointmentId") String appointmentId){
         return commandGateway.send(new DeleteAppointmentC(appointmentId));
