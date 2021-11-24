@@ -18,7 +18,7 @@ import java.util.Date;
 public class Diet {
 
     @Id
-    @ApiModelProperty(notes = "Diet Id",name="dietId",required=true,example = "04e19ea0-d9e4-4fa2-8cc8-6b7adc47bb71")
+    @ApiModelProperty(notes = "Diet Id",name="dietId",required=true,example = "88c061a3-b67c-48eb-a63d-49d5bdf9e836")
     private String id;
     @Column(name="name")
     @ApiModelProperty(notes = "Diet name",name="name",required=true,example = "Dieta Proteica")
@@ -31,7 +31,7 @@ public class Diet {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
     @Column(name="lastModification")
-    @ApiModelProperty(notes = "Appointment updated date",name="lastModification",required=true,example = "2021-11-23T04:25:17.917+00:00")
+    @ApiModelProperty(notes = "Diet updated date",name="lastModification",required=true,example = "2021-11-23T04:25:17.917+00:00")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastModification;
 }

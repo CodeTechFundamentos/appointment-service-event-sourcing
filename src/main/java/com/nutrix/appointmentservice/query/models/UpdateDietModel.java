@@ -13,6 +13,6 @@ public class UpdateDietModel {
     private String description;
     @ApiModelProperty(notes = "Diet created date",name="createdAt",required=true,example = "2021-11-23T04:25:17.917+00:00")
     private Date createdAt;
-    @ApiModelProperty(notes = "Appointment updated date",name="lastModification",required=true,example = "2021-11-23T04:25:17.917+00:00")
+    @ApiModelProperty(notes = "Diet updated date",name="lastModification",required=true,example = "2021-11-23T04:25:17.917+00:00")
     private Date lastModification;
 }

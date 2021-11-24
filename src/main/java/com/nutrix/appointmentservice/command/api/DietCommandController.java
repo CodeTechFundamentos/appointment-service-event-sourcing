@@ -56,7 +56,7 @@ public class DietCommandController {
             if (ex != null)
                 return new ErrorResponseDto(ex.getMessage());
             return new CreateDietModel(
-                    //createDietC.getId(),
+                    createDietC.getId(),
                     createDietC.getName(),
                     createDietC.getDescription(),
                     createDietC.getCreatedAt(),
